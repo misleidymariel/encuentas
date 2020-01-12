@@ -8,7 +8,8 @@ var Modelo = function() {
   //inicializacion de eventos
   this.preguntaAgregada = new Evento(this);
   this.respuestaAgregada = new Evento(this);
-  this.eliminarPregunta = new Evento(this);
+  this.preguntaEliminada = new Evento(this);
+  this.preguntasEliminadas = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -20,7 +21,6 @@ Modelo.prototype = {
         mayor = this.preguntas[i].id;
       }
     }
-    console.log('mayor', mayor);
     return mayor;
   },
 
@@ -43,11 +43,16 @@ Modelo.prototype = {
     }
   },
 
-  eliminarPregunta: function (idPregunta){
-    this.preguntas = this.preguntas.filter(pregunta => pregunta.id != id.pregunta)
-    this.eliminarPregunta.notificar();
+  eliminarPregunta: function (idPregunta) {
+    this.preguntas = this.preguntas.filter(pregunta => pregunta.id != idPregunta)
+    this.preguntaEliminada.notificar();
   },
 
+  eliminarTodo: function(){
+   this.preguntas = [];
+   this.preguntasEliminadas.notificar();
+
+  },
   //se guardan las preguntas
   guardar: function(){
   },

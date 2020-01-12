@@ -14,8 +14,11 @@ Controlador.prototype = {
     this.modelo.agregarRespuesta(pregunta, respuestas)
   },
 
-  eliminarPregunta: function(pregunta){
-    console.log("hola", pregunta);
-    this.modelo.eliminarPregunta(pregunta);
+  eliminarPregunta: function(idPregunta){
+    this.modelo.eliminarPregunta(idPregunta);
   },
+  
+  eliminarTodo: function(){
+    this.modelo.eliminarTodo();
+  }
 };
