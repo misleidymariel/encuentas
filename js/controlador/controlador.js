@@ -20,5 +20,12 @@ Controlador.prototype = {
   
   eliminarTodo: function(){
     this.modelo.eliminarTodo();
-  }
+  },
+  getPregunta: function (idPregunta) {
+    return this.modelo.getPregunta(idPregunta);
+  },
+
+  actualizarPregunta: function(pregunta){
+    this.modelo.actualizarPregunta(pregunta);
+  },
 };

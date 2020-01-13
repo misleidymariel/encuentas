@@ -10,6 +10,7 @@ var Modelo = function() {
   this.respuestaAgregada = new Evento(this);
   this.preguntaEliminada = new Evento(this);
   this.preguntasEliminadas = new Evento(this);
+  this.preguntaActualizada = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -54,6 +55,17 @@ Modelo.prototype = {
 
   },
   //se guardan las preguntas
-  guardar: function(){
+  guardar: function() {
   },
+
+  getPregunta: function(idPregunta) {
+    let result = this.preguntas.find(pregunta => pregunta.id === idPregunta);
+    return result;
+  },
+
+  actualizarPregunta: function(inputPregunta) {
+    var indice = this.preguntas.findIndex(pregunta => pregunta.id === inputPregunta.id);
+    this.preguntas[indice].textoPregunta = inputPregunta.textoPregunta;
+    this.preguntaActualizada.notificar();
+  }
 };

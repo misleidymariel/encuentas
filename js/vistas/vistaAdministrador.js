@@ -18,11 +18,15 @@ var VistaAdministrador = function(modelo, controlador, elementos) {
 
   this.modelo.preguntaEliminada.suscribir(function() {
     contexto.reconstruirLista();
-  })
+  });
 
   this.modelo.preguntasEliminadas.suscribir(function(){
     contexto.reconstruirLista();
-  })
+  });
+
+  this.modelo.preguntaActualizada.suscribir(function(){
+    contexto.reconstruirLista();
+  });
 };
 
 
@@ -81,7 +85,24 @@ VistaAdministrador.prototype = {
     });
 
     e.botonEditarPregunta.click(function(){
-      console.log("hola");
+      var id = parseInt($('.list-group-item.active').attr('id'));
+      var pregunta = contexto.controlador.getPregunta(id);
+      if( pregunta ) {
+        //swal("¡Hola mundo!" + pregunta.textoPregunta);
+        swal(pregunta.textoPregunta, {
+          content: "input",
+          button: {
+            text: "Guardar",
+            closeModal: true,
+          },
+        })
+        .then((preguntaEditada) => {
+          if(preguntaEditada) {
+            pregunta.textoPregunta = preguntaEditada;
+            contexto.controlador.actualizarPregunta(pregunta);
+          }
+        });
+      }
     });
 
     e.borrarTodo.click(function(){
