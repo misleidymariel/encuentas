@@ -2,7 +2,12 @@
  * Modelo
  */
 var Modelo = function() {
-  this.preguntas = [];
+
+  this.preguntas = localStorage.getItem("preguntas");
+  if(!this.preguntas)
+    this.preguntas = [];
+  else
+    this.preguntas = JSON.parse(this.preguntas);
   this.ultimoId = 0; //TODO: revisar para que sirve esta variable
 
   //inicializacion de eventos
@@ -11,6 +16,7 @@ var Modelo = function() {
   this.preguntaEliminada = new Evento(this);
   this.preguntasEliminadas = new Evento(this);
   this.preguntaActualizada = new Evento(this);
+  this.votosRespuestas = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -56,10 +62,11 @@ Modelo.prototype = {
   },
   //se guardan las preguntas
   guardar: function() {
+    localStorage.setItem("preguntas", JSON.stringify(this.preguntas) );
   },
 
   getPregunta: function(idPregunta) {
-    let result = this.preguntas.find(pregunta => pregunta.id === idPregunta);
+    let result = this.preguntas.find(pregunta => pregunta.id == idPregunta);
     return result;
   },
 
@@ -67,5 +74,14 @@ Modelo.prototype = {
     var indice = this.preguntas.findIndex(pregunta => pregunta.id === inputPregunta.id);
     this.preguntas[indice].textoPregunta = inputPregunta.textoPregunta;
     this.preguntaActualizada.notificar();
+  },
+
+  agregarVoto: function(idPregunta, idRespuesta){
+    var pregunta = this.getPregunta(idPregunta);
+    var respuesta = pregunta.cantidadPorRespuesta.find(rta => rta.textoRespuesta === idRespuesta);
+    respuesta.votos++;
+    this.votosRespuestas.notificar();
   }
+
+  
 };

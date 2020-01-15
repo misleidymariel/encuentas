@@ -74,6 +74,11 @@ VistaAdministrador.prototype = {
       var value = e.pregunta.val();
       var respuestas = [];
       $('[name="option[]"]').each(function(index, element) {
+        respuestas.push({
+          textoRespuesta: element.value,
+          id: index,
+          votos: 0
+        });
       })
       contexto.limpiarFormulario();
       contexto.controlador.agregarPregunta(value, respuestas);
@@ -87,8 +92,7 @@ VistaAdministrador.prototype = {
     e.botonEditarPregunta.click(function(){
       var id = parseInt($('.list-group-item.active').attr('id'));
       var pregunta = contexto.controlador.getPregunta(id);
-      if( pregunta ) {
-        //swal("¡Hola mundo!" + pregunta.textoPregunta);
+      if( pregunta ) 
         swal(pregunta.textoPregunta, {
           content: "input",
           button: {
@@ -102,12 +106,11 @@ VistaAdministrador.prototype = {
             contexto.controlador.actualizarPregunta(pregunta);
           }
         });
-      }
-    });
+      })
 
     e.borrarTodo.click(function(){
       contexto.controlador.eliminarTodo();
-    });
+    })
   },
 
   limpiarFormulario: function(){

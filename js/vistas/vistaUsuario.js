@@ -46,6 +46,23 @@ VistaUsuario.prototype = {
     })
   },
 
+  construirElementoPregunta: function (pregunta) {
+    var contexto = this;
+    var nuevoItem = $('<div></div>').addClass("list-group-item")
+      .attr('id', pregunta.id)
+      .html(pregunta.textoPregunta);
+
+    var interiorItem = $('.d-flex');
+    var titulo = interiorItem.find('h5');
+    titulo.text(pregunta.textoPregunta);
+    interiorItem.find('small').text(pregunta.cantidadPorRespuesta.map(function (resp) {
+      return " " + resp.textoRespuesta;
+    }));
+
+    nuevoItem.html($('.d-flex').html());
+
+    return nuevoItem;
+  },
 
   reconstruirLista: function () {
     var listaPreguntas = this.elementos.listaPreguntas;
@@ -53,10 +70,9 @@ VistaUsuario.prototype = {
     var contexto = this;
     var preguntas = this.modelo.preguntas;
     preguntas.forEach(function (clave) {
-      //completar
-      //agregar a listaPreguntas un elemento div con valor "clave.textoPregunta", texto "clave.textoPregunta", id "clave.id"
-      var respuestas = clave.cantidadPorRespuesta;
-      contexto.mostrarRespuestas(listaPreguntas, respuestas, clave);
+    listaPreguntas.append(contexto.construirElementoPregunta(clave));
+    var respuestas = clave.cantidadPorRespuesta;
+    contexto.mostrarRespuestas(listaPreguntas, respuestas, clave);
     })
   },
 
@@ -78,11 +94,10 @@ VistaUsuario.prototype = {
   agregarVotos: function () {
     var contexto = this;
     $('#preguntas').find('div').each(function () {
-      var nombrePregunta = $(this).attr('value');
       var id = $(this).attr('id');
       var respuestaSeleccionada = $('input[name=' + id + ']:checked').val();
       $('input[name=' + id + ']').prop('checked', false);
-      contexto.controlador.agregarVoto(nombrePregunta, respuestaSeleccionada);
+      contexto.controlador.agregarVoto(id, respuestaSeleccionada);
     });
   },
 

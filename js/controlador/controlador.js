@@ -28,4 +28,11 @@ Controlador.prototype = {
   actualizarPregunta: function(pregunta){
     this.modelo.actualizarPregunta(pregunta);
   },
+  agregarVoto: function(idPregunta,idRespuesta){
+    this.modelo.agregarVoto(idPregunta,idRespuesta);
+  },
+
+  dibujarGraficos:function(){
+    this.modelo.dibujarGraficos();
+  }
 };
