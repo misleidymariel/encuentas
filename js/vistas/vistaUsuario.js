@@ -15,6 +15,11 @@ var VistaUsuario = function (modelo, controlador, elementos) {
   this.modelo.respuestaAgregada.suscribir(function () {
     contexto.reconstruirLista();
   });
+
+  this.modelo.preguntaEliminada.suscribir(function() {
+    console.log('test');
+    contexto.reconstruirLista();
+  });
 };
 
 VistaUsuario.prototype = {

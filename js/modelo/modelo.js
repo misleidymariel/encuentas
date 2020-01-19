@@ -51,18 +51,15 @@ Modelo.prototype = {
   },
 
   eliminarPregunta: function (idPregunta) {
-    this.preguntas = this.preguntas.filter(pregunta => pregunta.id != idPregunta)
+    this.preguntas = this.preguntas.filter(pregunta => pregunta.id != idPregunta);
+    this.guardar();
     this.preguntaEliminada.notificar();
   },
 
   eliminarTodo: function(){
    this.preguntas = [];
+   this.guardar();
    this.preguntasEliminadas.notificar();
-
-  },
-  //se guardan las preguntas
-  guardar: function() {
-    localStorage.setItem("preguntas", JSON.stringify(this.preguntas) );
   },
 
   getPregunta: function(idPregunta) {
@@ -73,6 +70,7 @@ Modelo.prototype = {
   actualizarPregunta: function(inputPregunta) {
     var indice = this.preguntas.findIndex(pregunta => pregunta.id === inputPregunta.id);
     this.preguntas[indice].textoPregunta = inputPregunta.textoPregunta;
+    this.guardar();
     this.preguntaActualizada.notificar();
   },
 
@@ -81,7 +79,10 @@ Modelo.prototype = {
     var respuesta = pregunta.cantidadPorRespuesta.find(rta => rta.textoRespuesta === idRespuesta);
     respuesta.votos++;
     this.votosRespuestas.notificar();
-  }
+  },
 
-  
+   //se guardan las preguntas
+  guardar: function() {
+    localStorage.setItem("preguntas", JSON.stringify(this.preguntas) );
+  },
 };
